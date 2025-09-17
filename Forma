@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Форма обратной связи</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    form {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 350px;
+    }
+
+    form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+      color: #444;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #66a6ff;
+      box-shadow: 0 0 5px rgba(102, 166, 255, 0.5);
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #66a6ff, #89f7fe);
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #5a8dee, #72c6ef);
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+<body>
+  <form action="send.php" method="post">
+    <h2>Обратная связь</h2>
+
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name" placeholder="Введите ваше имя" required>
+
+    <label for="phone">Телефон:</label>
+    <input type="tel" id="phone" name="phone" placeholder="+380XXXXXXXXX" required pattern="\+?[0-9\s\-\(\)]{7,}">
+
+    <label for="problem">Опишите вашу проблему:</label>
+    <textarea id="problem" name="problem" rows="4" placeholder="Введите проблему" required></textarea>
+
+    <button type="submit">Отправить</button>
+  </form>
+</body>
+</html>

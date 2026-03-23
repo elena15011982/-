@@ -117,13 +117,92 @@ position:static;
 box-shadow:none;
 }
 
+
+/* МОДАЛКИ */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+justify-content:center;
+align-items:center;
+z-index:2000;
 }
 
+.modal-content{
+background:#fff;
+padding:20px;
+border-radius:10px;
+width:300px;
+text-align:center;
+}
+
+.close{
+float:right;
+font-size:20px;
+cursor:pointer;
+}
+
+/* ФОРМА */
+.modal input,
+.modal textarea{
+width:100%;
+margin:10px 0;
+padding:10px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+.send-btn{
+background:#c9a227;
+color:#fff;
+border:none;
+padding:10px;
+width:100%;
+border-radius:5px;
+cursor:pointer;
+}
+
+/* КНОПКА ДОБАВИТЬ */
+.add-btn{
+margin-top:10px;
+padding:8px 12px;
+border:none;
+background:#c9a227;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
   </style>
   </head>
 
 <body>
-  
+<!-- КОРЗИНА -->
+<div id="cartModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeCart()">&times;</span>
+    <h2>Кошик</h2>
+    <div id="cartItems"></div>
+    <p><b>Сума: <span id="cartTotal">0</span> ₴</b></p>
+  </div>
+</div>
+
+<!-- ФОРМА -->
+<div id="formModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeForm()">&times;</span>
+    <h2>Форма для зв'язку</h2>
+
+    <input type="text" placeholder="Ваше ім'я">
+    <input type="tel" placeholder="Телефон">
+    <textarea placeholder="Ваше повідомлення"></textarea>
+
+    <button class="send-btn">Відправити</button>
+  </div>
+</div>  
   <div class="u-custom-menu u-nav-container">
             <ul class="u-nav u-spacing-30 u-unstyled u-nav-1" role="menubar"><li class="u-nav-item" role="none">
       <a class="u-border-1 u-border-active-palette-2-base
@@ -253,7 +332,46 @@ container.innerHTML += `
 })
 
 })
+let cart = [];
 
+/* ДОБАВИТЬ В КОРЗИНУ */
+function addToCart(name, price){
+cart.push({name, price});
+updateCart();
+}
+
+/* ОБНОВИТЬ КОРЗИНУ */
+function updateCart(){
+const cartItems = document.getElementById("cartItems");
+const total = document.getElementById("cartTotal");
+
+cartItems.innerHTML = "";
+let sum = 0;
+
+cart.forEach(item => {
+cartItems.innerHTML += `<p>${item.name} - ${item.price} ₴</p>`;
+sum += item.price;
+});
+
+total.textContent = sum;
+}
+
+/* ОТКРЫТЬ / ЗАКРЫТЬ */
+function openCart(){
+document.getElementById("cartModal").style.display = "flex";
+}
+
+function closeCart(){
+document.getElementById("cartModal").style.display = "none";
+}
+
+function openForm(){
+document.getElementById("formModal").style.display = "flex";
+}
+
+function closeForm(){
+document.getElementById("formModal").style.display = "none";
+}
 </script>
 </body>
 </html>

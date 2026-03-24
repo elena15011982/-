@@ -26,12 +26,20 @@
   margin: 0;
 }
 .u-btn-1{
-background:#8BC34A !important;
+background:#8BC34A !important; /* дорогой салатовый */
 color:#fff !important;
+border-radius:25px;
+padding:10px 25px;
+font-weight:600;
+letter-spacing:0.5px;
+transition:all 0.3s ease;
 }
 
+/* hover эффект */
 .u-btn-1:hover{
-background:#689F38 !important;
+background:#689F38 !important; /* темнее */
+transform:translateY(-2px);
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
 .u-section-1 .u-text-2 {
   margin: 20px 0 0;

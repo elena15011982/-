@@ -25,7 +25,14 @@
   line-height: 1.12;
   margin: 0;
 }
+.u-btn-1{
+background:#8BC34A !important;
+color:#fff !important;
+}
 
+.u-btn-1:hover{
+background:#689F38 !important;
+}
 .u-section-1 .u-text-2 {
   margin: 20px 0 0;
 }

@@ -1,281 +1,469 @@
+```html
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Краса</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f5f5">
+  <title>Краса — товари та послуги</title>
 
   <style>
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#fafafa;
+    :root {
+      --gold: #c9a227;
+      --gold-hover: #a8861f;
+      --background: #fafafa;
+      --white: #fff;
+      --text: #333;
+      --radius: 10px;
+      --shadow: 0 4px 14px rgba(0, 0, 0, .08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--background);
+      color: var(--text);
+    }
+
+    button, input, textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
     }
 
     /* ===== HEADER / МЕНЮ ===== */
-    .header{
-      background:#f5f5f5;
-      box-shadow:0 2px 10px rgba(0,0,0,0.08);
-      position:sticky;
-      top:0;
-      z-index:1000;
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #f5f5f5;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
     }
 
-    .u-custom-menu{
-      max-width:1200px;
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:15px 20px;
-      gap:20px;
+    .u-custom-menu {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
 
-    /* Левая часть меню */
-    .menu-left{
-      display:flex;
-      align-items:center;
-      gap:30px;
-      flex-wrap:wrap;
+    .menu-left {
+      min-width: 0;
     }
 
-    .u-nav{
-      display:flex;
-      gap:30px;
-      list-style:none;
-      margin:0;
-      padding:0;
-      align-items:center;
+    .u-nav {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
 
-    .u-nav-item{
-      position:relative;
+    .u-nav-item {
+      position: relative;
     }
 
-    .u-nav-link{
-      text-decoration:none;
-      color:#333;
-      font-size:16px;
-      padding:8px 0;
-      display:block;
-      transition:0.3s;
-      cursor:pointer;
+    .u-nav-link {
+      display: block;
+      padding: 9px 0;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 15px;
+      transition: color .2s;
     }
 
-    .u-nav-link:hover{
-      color:#c9a227;
+    .u-nav-link:hover,
+    .u-nav-link:focus-visible {
+      color: var(--gold);
     }
 
-    /* ===== ВЫПАДАЮЩЕЕ МЕНЮ ===== */
-    .u-nav-popup{
-      display:none;
-      position:absolute;
-      top:100%;
-      left:0;
-      background:white;
-      border-radius:10px;
-      box-shadow:0 5px 15px rgba(0,0,0,0.1);
-      padding:10px 0;
-      min-width:220px;
-      z-index:1000;
+    /* Випадаючі підменю */
+
+    .u-nav-popup {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1001;
+      min-width: 220px;
+      padding: 8px 0;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
 
-    .u-nav-item:hover > .u-nav-popup{
-      display:block;
+    .u-nav-item:hover > .u-nav-popup,
+    .u-nav-item:focus-within > .u-nav-popup {
+      display: block;
     }
 
-    .u-nav-popup .u-nav{
-      flex-direction:column;
-      gap:0;
-      align-items:stretch;
+    .u-nav-popup .u-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
     }
 
-    .u-nav-popup .u-nav-link{
-      padding:10px 20px;
-      font-size:14px;
-      color:#555;
-      white-space:nowrap;
+    .u-nav-popup .u-nav-link {
+      padding: 11px 18px;
+      white-space: nowrap;
+      font-size: 14px;
     }
 
-    .u-nav-popup .u-nav-link:hover{
-      background:#f5f5f5;
-      color:#000;
+    .u-nav-popup .u-nav-link:hover {
+      background: #f7f7f7;
+      color: var(--gold-hover);
     }
 
-    /* ===== КНОПКИ СПРАВА ===== */
-    .menu-actions{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      flex-shrink:0;
+    /* Кнопки праворуч */
+
+    .menu-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
     }
 
-    .menu-btn{
-      border:none;
-      background:#c9a227;
-      color:#fff;
-      padding:10px 16px;
-      border-radius:8px;
-      cursor:pointer;
-      font-size:14px;
-      transition:0.3s;
+    .menu-btn,
+    .add-btn,
+    .send-btn {
+      border: 0;
+      background: var(--gold);
+      color: #fff;
+      transition: background .2s, transform .2s;
     }
 
-    .menu-btn:hover{
-      background:#a8861f;
+    .menu-btn {
+      position: relative;
+      padding: 11px 16px;
+      border-radius: 8px;
+      font-size: 14px;
     }
 
-    .cart-btn{
-      position:relative;
+    .menu-btn:hover,
+    .add-btn:hover,
+    .send-btn:hover {
+      background: var(--gold-hover);
     }
 
-    .cart-count{
-      position:absolute;
-      top:-8px;
-      right:-8px;
-      background:#000;
-      color:#fff;
-      font-size:12px;
-      min-width:18px;
-      height:18px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:0 4px;
+    .cart-count {
+      position: absolute;
+      top: -7px;
+      right: -7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 5px;
+      border-radius: 50%;
+      background: #222;
+      color: #fff;
+      font-size: 11px;
     }
 
-    /* ===== ТОВАРЫ ===== */
-    #products{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-      gap:20px;
-      padding:30px 20px;
-      max-width:1200px;
-      margin:0 auto;
+    /* ===== КАРТКИ ТОВАРІВ ===== */
+
+    #products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 22px;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 30px 20px;
     }
 
-    .product{
-      background:white;
-      padding:15px;
-      border-radius:10px;
-      text-align:center;
-      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    .product {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px;
+      text-align: center;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform .2s, box-shadow .2s;
     }
 
-    .product img{
-      max-width:150px;
-      height:auto;
-      object-fit:contain;
+    .product:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(0, 0, 0, .12);
     }
 
-    .add-btn{
-      margin-top:10px;
-      padding:8px 12px;
-      border:none;
-      background:#c9a227;
-      color:white;
-      border-radius:5px;
-      cursor:pointer;
+    .product img {
+      display: block;
+      width: 100%;
+      max-width: 180px;
+      height: 180px;
+      object-fit: contain;
+      content-visibility: auto;
     }
 
-    .add-btn:hover{
-      background:#a8861f;
+    .product h3 {
+      margin: 15px 0 8px;
+      font-size: 16px;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
     }
 
-    /* ===== МОДАЛКИ ===== */
-    .modal{
-      display:none;
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background:rgba(0,0,0,0.5);
-      justify-content:center;
-      align-items:center;
-      z-index:2000;
+    .product-price {
+      margin: 5px 0 12px;
+      font-size: 18px;
+      font-weight: bold;
     }
 
-    .modal-content{
-      background:#fff;
-      padding:20px;
-      border-radius:10px;
-      width:320px;
-      max-width:90%;
-      text-align:center;
-      position:relative;
+    .add-btn {
+      margin-top: auto;
+      padding: 10px 14px;
+      border-radius: 6px;
     }
 
-    .close{
-      position:absolute;
-      top:10px;
-      right:15px;
-      font-size:22px;
-      cursor:pointer;
+    .loading-message,
+    .error-message {
+      grid-column: 1 / -1;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .error-message {
+      color: #a32626;
+    }
+
+    /* ===== МОДАЛЬНІ ВІКНА ===== */
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(0, 0, 0, .5);
+    }
+
+    .modal.is-open {
+      display: flex;
+    }
+
+    .modal-content {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 25px;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, .15);
+    }
+
+    .modal-content h2 {
+      margin: 0 30px 20px 0;
+      font-size: 22px;
+    }
+
+    .close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: #555;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .close:hover {
+      color: #000;
     }
 
     .modal input,
-    .modal textarea{
-      width:100%;
-      margin:10px 0;
-      padding:10px;
-      border:1px solid #ccc;
-      border-radius:5px;
-      box-sizing:border-box;
+    .modal textarea {
+      display: block;
+      width: 100%;
+      margin: 12px 0;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #fff;
     }
 
-    .send-btn{
-      background:#c9a227;
-      color:#fff;
-      border:none;
-      padding:10px;
-      width:100%;
-      border-radius:5px;
-      cursor:pointer;
+    .modal textarea {
+      min-height: 100px;
+      resize: vertical;
     }
 
-    /* ===== АДАПТИВ ===== */
-    @media (max-width: 900px){
-      .u-custom-menu{
-        flex-direction:column;
-        align-items:flex-start;
+    .send-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+    }
+
+    /* Кошик */
+
+    .cart-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+
+    .cart-product-info {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .cart-remove {
+      flex-shrink: 0;
+      border: 0;
+      background: transparent;
+      color: #a32626;
+      font-size: 13px;
+    }
+
+    .cart-total {
+      margin-top: 18px;
+      font-size: 18px;
+    }
+
+    .empty-cart {
+      color: #777;
+    }
+
+    /* ===== АДАПТИВНІСТЬ ===== */
+
+    @media (max-width: 900px) {
+      .u-custom-menu {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
       }
 
-      .u-nav{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:10px;
+      .u-nav {
+        flex-wrap: wrap;
+        gap: 8px 20px;
       }
 
-      .menu-actions{
-        width:100%;
-        justify-content:flex-start;
+      .menu-actions {
+        justify-content: flex-start;
       }
 
-      .u-nav-popup{
-        position:static;
-        box-shadow:none;
-        margin-top:8px;
+      .u-nav-popup {
+        top: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .u-custom-menu {
+        padding: 12px 15px;
+      }
+
+      .u-nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+      }
+
+      .u-nav-link {
+        padding: 10px 0;
+      }
+
+      .u-nav-popup {
+        position: static;
+        min-width: 0;
+        margin: 0 0 8px 12px;
+        box-shadow: none;
+        background: #eee;
+      }
+
+      .u-nav-popup .u-nav-link {
+        white-space: normal;
+      }
+
+      #products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        padding: 18px 12px;
+      }
+
+      .product {
+        padding: 12px 8px;
+      }
+
+      .product img {
+        height: 130px;
+      }
+
+      .product h3 {
+        font-size: 14px;
+      }
+
+      .product-price {
+        font-size: 16px;
+      }
+
+      .add-btn {
+        width: 100%;
+        padding: 9px 5px;
+        font-size: 12px;
+      }
+
+      .modal-content {
+        padding: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
       }
     }
   </style>
 </head>
+
 <body>
 
   <header class="header">
     <div class="u-custom-menu">
 
-      <div class="menu-left">
+      <nav class="menu-left" aria-label="Головне меню">
         <ul class="u-nav">
+
           <li class="u-nav-item">
             <a class="u-nav-link" href="#">Товари та послуги</a>
             <div class="u-nav-popup">
               <ul class="u-nav">
-                <li class="u-nav-item"><a class="u-nav-link" href="products.html">Догляд за волоссям</a></li>
-                <li class="u-nav-item"><a class="u-nav-link" href="Services.html">Догляд за обличчям</a></li>
-                <li class="u-nav-item"><a class="u-nav-link" href="productsmanikur.html">Все для манікюру</a></li>
-                <li class="u-nav-item"><a class="u-nav-link" href="productsmakeup.html">Декоративна косметика</a></li>
+                <li class="u-nav-item">
+                  <a class="u-nav-link" href="products.html">Догляд за волоссям</a>
+                </li>
+                <li class="u-nav-item">
+                  <a class="u-nav-link" href="Services.html">Догляд за обличчям</a>
+                </li>
+                <li class="u-nav-item">
+                  <a class="u-nav-link" href="productsmanikur.html">Все для манікюру</a>
+                </li>
+                <li class="u-nav-item">
+                  <a class="u-nav-link" href="productsmakeup.html">Декоративна косметика</a>
+                </li>
               </ul>
             </div>
           </li>
@@ -292,9 +480,15 @@
             <a class="u-nav-link" href="#">Контакти</a>
             <div class="u-nav-popup">
               <ul class="u-nav">
-                <li class="u-nav-item"><a class="u-nav-link" href="Лендинг.html">Landing</a></li>
-                <li class="u-nav-item"><a class="u-nav-link" href="FAQ-Page.html">FAQ</a></li>
-                <li class="u-nav-item"><a class="u-nav-link" href="Services.html">Services</a></li>
+                <li class="u-nav-item">
+                  <a class="u-nav-link" href="Лендинг.html">Landing</a>
+                </li>
+                <li class="u-nav-item">
+                  <a class="u-nav-link" href="FAQ-Page.html">FAQ</a>
+                </li>
+                <li class="u-nav-item">
+                  <a class="u-nav-link" href="Services.html">Services</a>
+                </li>
               </ul>
             </div>
           </li>
@@ -302,119 +496,312 @@
           <li class="u-nav-item">
             <a class="u-nav-link" href="Контакты.html">Доставка та оплата</a>
           </li>
-        </ul>
-      </div>
 
-      <!-- Кнопки справа -->
+        </ul>
+      </nav>
+
       <div class="menu-actions">
-        <button class="menu-btn cart-btn" onclick="openCart()">
+        <button class="menu-btn cart-btn" id="openCartBtn" type="button">
           Кошик
-          <span class="cart-count" id="cartCount">0</span>
+          <span class="cart-count" id="cartCount" aria-live="polite">0</span>
         </button>
-        <button class="menu-btn" onclick="openForm()">Зв’язок</button>
+
+        <button class="menu-btn" id="openFormBtn" type="button">
+          Зв’язок
+        </button>
       </div>
 
     </div>
   </header>
 
-  <!-- КОРЗИНА -->
-  <div id="cartModal" class="modal">
+  <!-- КОШИК -->
+
+  <div id="cartModal" class="modal" role="dialog"
+       aria-modal="true" aria-labelledby="cartTitle">
     <div class="modal-content">
-      <span class="close" onclick="closeCart()">&times;</span>
-      <h2>Кошик</h2>
-      <div id="cartItems"></div>
-      <p><b>Сума: <span id="cartTotal">0</span> ₴</b>< /p>
+      <button class="close" type="button" data-close="cartModal"
+              aria-label="Закрити">&times;</button>
+
+      <h2 id="cartTitle">Кошик</h2>
+
+      <div id="cartItems">
+        <p class="empty-cart">Ваш кошик поки порожній.</p>
+      </div>
+
+      <p class="cart-total">
+        <b>Сума: <span id="cartTotal">0</span> ₴</b>
+      </p>
     </div>
   </div>
 
-  <!-- ФОРМА -->
-  <div id="formModal" class="modal">
+  <!-- ФОРМА ЗВ'ЯЗКУ -->
+
+  <div id="formModal" class="modal" role="dialog"
+       aria-modal="true" aria-labelledby="formTitle">
     <div class="modal-content">
-      <span class="close" onclick="closeForm()">&times;</span>
-      <h2>Форма для зв'язку</h2>
+      <button class="close" type="button" data-close="formModal"
+              aria-label="Закрити">&times;</button>
 
-      <input type="text" placeholder="Ваше ім'я" />
-      <input type="tel" placeholder="Телефон" />
-      <textarea placeholder="Ваше повідомлення"></textarea>
+      <h2 id="formTitle">Форма для зв'язку</h2>
 
-      <button class="send-btn">Відправити</button>
+      <form id="contactForm">
+        <input type="text" name="name"
+               placeholder="Ваше ім'я" autocomplete="name" required>
+
+        <input type="tel" name="phone"
+               placeholder="Телефон" autocomplete="tel" required>
+
+        <textarea name="message"
+                  placeholder="Ваше повідомлення" required></textarea>
+
+        <button class="send-btn" type="submit">Відправити</button>
+        <p id="formMessage" role="status"></p>
+      </form>
     </div>
   </div>
 
-  <!-- ТОВАРЫ -->
-  <div id="products"></div>
+  <!-- ТОВАРИ -->
+
+  <main>
+    <div id="products" aria-live="polite">
+      <p class="loading-message">Завантаження товарів...</p>
+    </div>
+  </main>
 
   <script>
-    let cart = [];
+    "use strict";
 
-    fetch("productsmanikur.json")
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById("products");
+    const cart = [];
 
-        data.forEach(product => {
-          container.innerHTML += `
-            <div class="product">
-              <img src="${product.image.split(',')[0].trim()}" alt="${product.name}" width="150" loading="lazy">
-              <h3>${product.name}</h3>
-              <p>${product.price} ₴</p>
-              <button class="add-btn" onclick="addToCart('${product.name}', ${product.price})">
-                Додати в кошик
-              </button>
-            </div>
-          `;
+    const productsContainer = document.getElementById("products");
+    const cartItems = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
+    const cartCount = document.getElementById("cartCount");
+
+    // ===== ЗАВАНТАЖЕННЯ ТОВАРІВ =====
+
+    async function loadProducts() {
+      try {
+        const response = await fetch("productsmanikur.json");
+
+        if (!response.ok) {
+          throw new Error("Не вдалося завантажити каталог.");
+        }
+
+        const products = await response.json();
+
+        if (!Array.isArray(products)) {
+          throw new Error("Неправильний формат каталогу.");
+        }
+
+        const fragment = document.createDocumentFragment();
+
+        products.forEach(product => {
+          const name = String(product.name ?? "Товар");
+          const price = Number(product.price);
+
+          if (!Number.isFinite(price) || price < 0) {
+            return;
+          }
+
+          const card = document.createElement("article");
+          card.className = "product";
+
+          // Підтримуємо кілька фото, розділених комою.
+          const imageSource = String(product.image ?? "")
+            .split(",")[0]
+            .trim();
+
+          const image = document.createElement("img");
+
+          image.alt = name;
+          image.width = 180;
+          image.height = 180;
+
+          // Ліниве завантаження зображень нижче першого екрана.
+          image.loading = "lazy";
+          image.decoding = "async";
+
+          if (imageSource) {
+            image.src = imageSource;
+
+            image.addEventListener("error", () => {
+              image.removeAttribute("src");
+              image.alt = "Фото товару недоступне";
+            }, { once: true });
+          } else {
+            image.alt = "Фото товару відсутнє";
+          }
+
+          const title = document.createElement("h3");
+          title.textContent = name;
+
+          const priceElement = document.createElement("p");
+          priceElement.className = "product-price";
+          priceElement.textContent =
+            price.toLocaleString("uk-UA") + " ₴";
+
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "add-btn";
+          button.textContent = "Додати в кошик";
+
+          button.addEventListener("click", () => {
+            addToCart(name, price);
+          });
+
+          card.append(image, title, priceElement, button);
+          fragment.appendChild(card);
         });
-      });
 
-    function addToCart(name, price){
+        productsContainer.replaceChildren(fragment);
+
+        if (!productsContainer.children.length) {
+          showProductsMessage("У каталозі поки немає товарів.");
+        }
+
+      } catch (error) {
+        console.error("Помилка каталогу:", error);
+        showProductsMessage(
+          "Не вдалося завантажити товари. Спробуйте пізніше.",
+          true
+        );
+      }
+    }
+
+    function showProductsMessage(message, isError = false) {
+      const paragraph = document.createElement("p");
+      paragraph.className = isError
+        ? "error-message"
+        : "loading-message";
+      paragraph.textContent = message;
+      productsContainer.replaceChildren(paragraph);
+    }
+
+    // ===== КОШИК =====
+
+    function addToCart(name, price) {
       cart.push({ name, price });
       updateCart();
     }
 
-    function updateCart(){
-      const cartItems = document.getElementById("cartItems");
-      const total = document.getElementById("cartTotal");
-      const cartCount = document.getElementById("cartCount");
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
 
-      cartItems.innerHTML = "";
+    function updateCart() {
+      const fragment = document.createDocumentFragment();
       let sum = 0;
 
-      cart.forEach(item => {
-        cartItems.innerHTML += `<p>${item.name} - ${item.price} ₴</p>`;
+      if (cart.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.className = "empty-cart";
+        emptyMessage.textContent = "Ваш кошик поки порожній.";
+        fragment.appendChild(emptyMessage);
+      }
+
+      cart.forEach((item, index) => {
+        const row = document.createElement("div");
+        row.className = "cart-row";
+
+        const info = document.createElement("div");
+        info.className = "cart-product-info";
+        info.textContent =
+          `${item.name} — ${item.price.toLocaleString("uk-UA")} ₴`;
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "cart-remove";
+        removeButton.textContent = "Видалити";
+        removeButton.setAttribute(
+          "aria-label",
+          `Видалити ${item.name} з кошика`
+        );
+
+        removeButton.addEventListener("click", () => {
+          removeFromCart(index);
+        });
+
+        row.append(info, removeButton);
+        fragment.appendChild(row);
+
         sum += item.price;
       });
 
-      total.textContent = sum;
+      cartItems.replaceChildren(fragment);
+      cartTotal.textContent = sum.toLocaleString("uk-UA");
       cartCount.textContent = cart.length;
     }
 
-    function openCart(){
-      document.getElementById("cartModal").style.display = "flex";
+    // ===== МОДАЛЬНІ ВІКНА =====
+
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+
+      modal.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+
+      const closeButton = modal.querySelector(".close");
+      if (closeButton) closeButton.focus();
     }
 
-    function closeCart(){
-      document.getElementById("cartModal").style.display = "none";
-    }
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
 
-    function openForm(){
-      document.getElementById("formModal").style.display = "flex";
-    }
+      modal.classList.remove("is-open");
 
-    function closeForm(){
-      document.getElementById("formModal").style.display = "none";
-    }
-
-    window.onclick = function(event){
-      const cartModal = document.getElementById("cartModal");
-      const formModal = document.getElementById("formModal");
-
-      if(event.target === cartModal){
-        closeCart();
-      }
-      if(event.target === formModal){
-        closeForm();
+      if (!document.querySelector(".modal.is-open")) {
+        document.body.style.overflow = "";
       }
     }
+
+    document.getElementById("openCartBtn").addEventListener("click", () => {
+      openModal("cartModal");
+    });
+
+    document.getElementById("openFormBtn").addEventListener("click", () => {
+      openModal("formModal");
+    });
+
+    document.querySelectorAll("[data-close]").forEach(button => {
+      button.addEventListener("click", () => {
+        closeModal(button.dataset.close);
+      });
+    });
+
+    document.querySelectorAll(".modal").forEach(modal => {
+      modal.addEventListener("click", event => {
+        if (event.target === modal) {
+          closeModal(modal.id);
+        }
+      });
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        document.querySelectorAll(".modal.is-open").forEach(modal => {
+          closeModal(modal.id);
+        });
+      }
+    });
+
+    // ===== ФОРМА ЗВ'ЯЗКУ =====
+    // Для реального надсилання потрібен сервер або сервіс форм.
+
+    document.getElementById("contactForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      document.getElementById("formMessage").textContent =
+        "Форма поки не підключена до надсилання. Будь ласка, налаштуйте сервер або сервіс форм.";
+    });
+
+    // Запуск каталогу
+    loadProducts();
   </script>
+
 </body>
 </html>
+```

@@ -347,7 +347,7 @@
       <span class="close" onclick="closeCart()">&times;</span>
       <h2>Кошик</h2>
       <div id="cartItems"></div>
-      <p><b>Сума: <span id="cartTotal">0</span> ₴</b>< /p>
+      <p><b>Сума: <span id="cartTotal">0</span> ₴</b></p>
     </div>
   </div>
 
@@ -371,23 +371,80 @@
   <script>
     let cart = [];
 
-    fetch("productsdekor.json")
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById("products");
+    // Поступове відображення товарів без повторного перерисовування сторінки.
+    const PRODUCTS_PER_BATCH = 24;
+    const productsContainer = document.getElementById("products");
+    const loadMarker = document.createElement("div");
+    loadMarker.id = "loadMarker";
+    loadMarker.style.cssText = "height:1px;grid-column:1/-1";
+    let allProducts = [];
+    let nextProductIndex = 0;
+    let observer;
 
-        data.forEach(product => {
-          container.innerHTML += `
-            <div class="product">
-              <img src="${product.img}" alt="${product.name}" width="150">
-              <h3>${product.name}</h3>
-              <p>${product.price} ₴</p>
-              <button class="add-btn" onclick="addToCart('${product.name}', ${product.price})">
-                Додати в кошик
-              </button>
-            </div>
-          `;
-        });
+    function renderNextProducts() {
+      if (nextProductIndex >= allProducts.length) {
+        if (observer) observer.disconnect();
+        loadMarker.remove();
+        return;
+      }
+      const fragment = document.createDocumentFragment();
+      const end = Math.min(nextProductIndex + PRODUCTS_PER_BATCH, allProducts.length);
+      for (; nextProductIndex < end; nextProductIndex++) {
+        const product = allProducts[nextProductIndex];
+        const card = document.createElement("div");
+        card.className = "product";
+        const img = document.createElement("img");
+        const rawImage = product.img || product.image || "";
+        img.src = String(rawImage).split(",")[0].trim();
+        img.alt = String(product.name || "Товар");
+        img.width = 150;
+        img.loading = nextProductIndex < 4 ? "eager" : "lazy";
+        img.decoding = "async";
+        if (nextProductIndex < 4) img.fetchPriority = "high";
+        const name = document.createElement("h3");
+        name.textContent = product.name || "Без назви";
+        const price = document.createElement("p");
+        price.textContent = `${product.price ?? 0} ₴`;
+        const button = document.createElement("button");
+        button.className = "add-btn";
+        button.textContent = "Додати в кошик";
+        button.addEventListener("click", () => addToCart(String(product.name || "Товар"), Number(product.price) || 0));
+        card.append(img, name, price, button);
+        fragment.appendChild(card);
+      }
+      productsContainer.insertBefore(fragment, loadMarker);
+      if (nextProductIndex >= allProducts.length) {
+        if (observer) observer.disconnect();
+        loadMarker.remove();
+      }
+    }
+
+    productsContainer.textContent = "Завантаження товарів…";
+    fetch("productsdekor.json")
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        if (!Array.isArray(data)) throw new Error("JSON має містити масив товарів");
+        allProducts = data;
+        productsContainer.textContent = "";
+        if (!allProducts.length) {
+          productsContainer.textContent = "Товарів поки немає";
+          return;
+        }
+        productsContainer.appendChild(loadMarker);
+        renderNextProducts();
+        if (nextProductIndex < allProducts.length) {
+          observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) renderNextProducts();
+          }, { rootMargin: "600px 0px" });
+          observer.observe(loadMarker);
+        }
+      })
+      .catch(error => {
+        console.error("Помилка завантаження товарів:", error);
+        productsContainer.textContent = "Не вдалося завантажити товари. Перевірте файл productsdekor.json.";
       });
 
     function addToCart(name, price){

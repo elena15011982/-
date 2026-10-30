@@ -368,7 +368,15 @@
         const card = document.createElement("div");
         card.className = "product";
         const img = document.createElement("img");
-        img.src = String(product.img || product.image || "").split(",")[0].trim();
+        const imagePath = String(product.img || product.image || "").split(",")[0].trim();
+        if (imagePath) {
+          img.src = imagePath;
+        } else {
+          img.style.display = "none";
+        }
+        img.addEventListener("error", () => {
+          img.style.display = "none";
+        });
         img.alt = String(product.name || "Товар");
         img.width = 150;
         img.loading = i < 4 ? "eager" : "lazy";
@@ -382,6 +390,12 @@
         button.className = "add-btn";
         button.textContent = "Додати в кошик";
         button.addEventListener("click", () => addToCart(product.name, Number(product.price) || 0));
+        if (!imagePath) {
+          const placeholder = document.createElement("div");
+          placeholder.textContent = "Фото відсутнє";
+          placeholder.style.cssText = "height:100px;display:flex;align-items:center;justify-content:center;color:#888;font-size:13px";
+          card.appendChild(placeholder);
+        }
         card.append(img, name, price, button);
         fragment.appendChild(card);
       }
@@ -411,7 +425,7 @@
           return;
         }
         renderNextBatch();
-        observer.observe(sentinel);
+        if (nextProductIndex < allProducts.length) observer.observe(sentinel);
       })
       .catch(error => {
         console.error("Помилка завантаження товарів:", error);
